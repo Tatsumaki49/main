@@ -97,7 +97,7 @@ function autocollectspeedPotion()
 end 
 
 function autocollectluckPotionLoop()
-   while _G.autocollectluckPotionLoop == true do
+    while _G.autocollectluckPotionLoop == true do
     while wait(8.1) do
         local New_CFrame = game:GetService("Workspace").Potions["Luck Potion"].CFrame
 
@@ -115,12 +115,13 @@ function autocollectluckPotionLoop()
             end
         end
         
-        part.Touched:Connect(onTouched)   
+        part.Touched:Connect(onTouched) 
+        end  
     end
 end  
 
 function autocollectspeedPotionLoop()
-   while _G.autocollectspeedPotionLoop == true do
+    while _G.autocollectspeedPotionLoop == true do
     while wait(8.1) do
         local New_CFrame = game:GetService("Workspace").Potions["Speed Potion"].CFrame
 
@@ -138,7 +139,8 @@ function autocollectspeedPotionLoop()
             end
         end
         
-        part.Touched:Connect(onTouched) 
+        part.Touched:Connect(onTouched)
+        end 
     end
 end 
 
