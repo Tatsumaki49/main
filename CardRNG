@@ -6,7 +6,9 @@ _G.autoRoll = true
 _G.autoluckPotion = true
 _G.autospeedPotion = true
 _G.autocollectluckPotion = true
+_G.autocollectluckPotionLoop = true
 _G.autocollectspeedPotion = true
+_G.autocollectspeedPotionLoop = true
 _G.autobossPortal1 = true
 _G.autobossPortal2 = true
 _G.autobossPortal22 = true
@@ -20,7 +22,7 @@ _G.autobossPortal6 = true
 function autoRoll()
     while _G.autoRoll == true do
         game:GetService("ReplicatedStorage").Remotes.Roll:InvokeServer()
-        wait(.000001)
+        wait(.1)
      end
 end
 
@@ -66,12 +68,12 @@ function autocollectluckPotion()
         
         part.Touched:Connect(onTouched)    
 
-        wait(8.1)
+        wait(1)
     end
 end    
 
 function autocollectspeedPotion()
-    while _G.autocollectspeedPotion == true do
+    while _G.autocollectluckPotion == true do
         local New_CFrame = game:GetService("Workspace").Potions["Speed Potion"].CFrame
 
         local ts = game:GetService('TweenService')
@@ -92,7 +94,51 @@ function autocollectspeedPotion()
 
         wait(8.3)
     end
-end    
+end 
+
+function autocollectluckPotionLoop()
+    while wait(8.1) do
+        local New_CFrame = game:GetService("Workspace").Potions["Luck Potion"].CFrame
+
+        local ts = game:GetService('TweenService')
+        local char = game.Players.LocalPlayer.Character
+        local part = char.HumanoidRootPart
+        local ti = TweenInfo.new(8, Enum.EasingStyle.Linear) --How fast you go
+        local tp = {CFrame = New_CFrame}
+        
+        ts:Create(part, ti, tp):Play()
+        
+        local function onTouched(hit)
+            if hit:IsDescendantOf(game:GetService("Workspace").Potions["Luck Potion"]) then
+                game:GetService("Workspace").Potions["Luck Potion"]:Destroy()
+            end
+        end
+        
+        part.Touched:Connect(onTouched)   
+    end
+end  
+
+function autocollectspeedPotionLoop()
+    while wait(8.1) do
+        local New_CFrame = game:GetService("Workspace").Potions["Speed Potion"].CFrame
+
+        local ts = game:GetService('TweenService')
+        local char = game.Players.LocalPlayer.Character
+        local part = char.HumanoidRootPart
+        local ti = TweenInfo.new(8, Enum.EasingStyle.Linear) --How fast you go
+        local tp = {CFrame = New_CFrame}
+        
+        ts:Create(part, ti, tp):Play()
+        
+        local function onTouched(hit)
+            if hit:IsDescendantOf(game:GetService("Workspace").Potions["Speed Potion"]) then
+                game:GetService("Workspace").Potions["Speed Potion"]:Destroy()
+            end
+        end
+        
+        part.Touched:Connect(onTouched) 
+    end
+end 
 
 function autobossPortal1()
     while _G.autobossPortal1 == true do
@@ -218,6 +264,21 @@ FarmTab:AddToggle({
         autocollectspeedPotion()
 	end    
 })
+
+FarmTab:AddButton({
+	Name = "AutoCollectLuckPotion(Loop)",
+	Callback = function() 
+        autocollectluckPotionLoop()      
+  	end    
+})
+
+FarmTab:AddButton({
+	Name = "AutoCollectSpeedPotion(Loop)",
+	Callback = function()  
+        autocollectspeedPotionLoop()      
+  	end    
+})
+
 
 PotionsTab:AddToggle({
 	Name = "AutoUseLuckPotion",
