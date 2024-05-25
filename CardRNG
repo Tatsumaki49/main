@@ -1,0 +1,364 @@
+local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
+local Window = OrionLib:MakeWindow({Name = "TatsumakiHub | CardRNG", HidePremium = false, IntroText = "TatsumakiHub", SaveConfig = true, ConfigFolder = "TatsuHub"})
+
+-- Values
+_G.autoRoll = true
+_G.autoluckPotion = true
+_G.autospeedPotion = true
+_G.autocollectluckPotion = true
+_G.autocollectluckPotionLoop = true
+_G.autocollectspeedPotion = true
+_G.autocollectspeedPotionLoop = true
+_G.autobossPortal1 = true
+_G.autobossPortal2 = true
+_G.autobossPortal22 = true
+_G.autobossPortal3 = true
+_G.autobossPortal4 = true
+_G.autobossPortal5 = true
+_G.autobossPortal6 = true
+
+-- Funcions
+
+function autoRoll()
+    while _G.autoRoll == true do
+        game:GetService("ReplicatedStorage").Remotes.Roll:InvokeServer()
+        wait(.1)
+     end
+end
+
+function autoluckPotion()
+    while _G.autoluckPotion == true do
+        local args = {
+            [1] = "Luck Potion"
+        }
+        
+        game:GetService("ReplicatedStorage").Remotes.UsePotion:FireServer(unpack(args))
+        wait(3)
+    end
+end    
+
+function autospeedPotion()
+    while _G.autospeedPotion == true do
+        local args = {
+            [1] = "Speed Potion"
+        }
+        
+        game:GetService("ReplicatedStorage").Remotes.UsePotion:FireServer(unpack(args))
+        wait(3)
+    end
+end    
+
+function autocollectluckPotion()
+    while _G.autocollectluckPotion == true do
+        local New_CFrame = game:GetService("Workspace").Potions["Luck Potion"].CFrame
+
+        local ts = game:GetService('TweenService')
+        local char = game.Players.LocalPlayer.Character
+        local part = char.HumanoidRootPart
+        local ti = TweenInfo.new(8, Enum.EasingStyle.Linear) --How fast you go
+        local tp = {CFrame = New_CFrame}
+        
+        ts:Create(part, ti, tp):Play()
+        
+        local function onTouched(hit)
+            if hit:IsDescendantOf(game:GetService("Workspace").Potions["Luck Potion"]) then
+                game:GetService("Workspace").Potions["Luck Potion"]:Destroy()
+            end
+        end
+        
+        part.Touched:Connect(onTouched)    
+
+        wait(1)
+    end
+end    
+
+function autocollectspeedPotion()
+    while _G.autocollectluckPotion == true do
+        local New_CFrame = game:GetService("Workspace").Potions["Speed Potion"].CFrame
+
+        local ts = game:GetService('TweenService')
+        local char = game.Players.LocalPlayer.Character
+        local part = char.HumanoidRootPart
+        local ti = TweenInfo.new(8, Enum.EasingStyle.Linear) --How fast you go
+        local tp = {CFrame = New_CFrame}
+        
+        ts:Create(part, ti, tp):Play()
+        
+        local function onTouched(hit)
+            if hit:IsDescendantOf(game:GetService("Workspace").Potions["Speed Potion"]) then
+                game:GetService("Workspace").Potions["Speed Potion"]:Destroy()
+            end
+        end
+        
+        part.Touched:Connect(onTouched) 
+
+        wait(8.3)
+    end
+end 
+
+function autocollectluckPotionLoop()
+    while wait(8.1) do
+        local New_CFrame = game:GetService("Workspace").Potions["Luck Potion"].CFrame
+
+        local ts = game:GetService('TweenService')
+        local char = game.Players.LocalPlayer.Character
+        local part = char.HumanoidRootPart
+        local ti = TweenInfo.new(8, Enum.EasingStyle.Linear) --How fast you go
+        local tp = {CFrame = New_CFrame}
+        
+        ts:Create(part, ti, tp):Play()
+        
+        local function onTouched(hit)
+            if hit:IsDescendantOf(game:GetService("Workspace").Potions["Luck Potion"]) then
+                game:GetService("Workspace").Potions["Luck Potion"]:Destroy()
+            end
+        end
+        
+        part.Touched:Connect(onTouched)   
+    end
+end  
+
+function autocollectspeedPotionLoop()
+    while wait(8.1) do
+        local New_CFrame = game:GetService("Workspace").Potions["Speed Potion"].CFrame
+
+        local ts = game:GetService('TweenService')
+        local char = game.Players.LocalPlayer.Character
+        local part = char.HumanoidRootPart
+        local ti = TweenInfo.new(8, Enum.EasingStyle.Linear) --How fast you go
+        local tp = {CFrame = New_CFrame}
+        
+        ts:Create(part, ti, tp):Play()
+        
+        local function onTouched(hit)
+            if hit:IsDescendantOf(game:GetService("Workspace").Potions["Speed Potion"]) then
+                game:GetService("Workspace").Potions["Speed Potion"]:Destroy()
+            end
+        end
+        
+        part.Touched:Connect(onTouched) 
+    end
+end 
+
+function autobossPortal1()
+    while _G.autobossPortal1 == true do
+        local args = {
+            [1] = workspace.Bosses.Chronus
+        }
+        
+        game:GetService("ReplicatedStorage").Remotes.Battle:FireServer(unpack(args))
+        wait(2)
+     end
+end
+
+function autobossPortal2()
+    while _G.autobossPortal2 == true do
+        local args = {
+            [1] = workspace.Bosses.Malik
+        }
+        
+        game:GetService("ReplicatedStorage").Remotes.Battle:FireServer(unpack(args))
+        wait(2)
+     end
+end
+
+function autobossPortal22()
+    while _G.autobossPortal22 == true do
+        local args = {
+            [1] = workspace.SideBosses.Armin
+        }
+        
+        game:GetService("ReplicatedStorage").Remotes.Battle:FireServer(unpack(args))
+        wait(2)
+     end
+end
+
+function autobossPortal3()
+    while _G.autobossPortal3 == true do
+        local args = {
+            [1] = workspace.Bosses.Gideon
+        }
+        
+        game:GetService("ReplicatedStorage").Remotes.Battle:FireServer(unpack(args))
+        wait(2)
+     end
+end
+
+function autobossPortal4()
+    while _G.autobossPortal4 == true do
+        local args = {
+            [1] = workspace.Bosses.Lilith
+        }
+        
+        game:GetService("ReplicatedStorage").Remotes.Battle:FireServer(unpack(args))
+        wait(2)
+     end
+end
+
+function autobossPortal5()
+    while _G.autobossPortal5 == true do
+        local args = {
+            [1] = workspace.Bosses.Morpheus
+        }
+        
+        game:GetService("ReplicatedStorage").Remotes.Battle:FireServer(unpack(args))
+        wait(2)
+     end
+end
+
+function autobossPortal6()
+    while _G.autobossPortal6 == true do
+        local args = {
+            [1] = workspace.Bosses.Raze
+        }
+        
+        game:GetService("ReplicatedStorage").Remotes.Battle:FireServer(unpack(args))
+        wait(2)
+     end
+end
+
+
+-- Tabs
+local FarmTab = Window:MakeTab({
+	Name = "AutoFarm",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = false
+})
+
+local PotionsTab = Window:MakeTab({
+	Name = "Potions",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = false
+})
+
+local BossTab = Window:MakeTab({
+	Name = "Boss",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = false
+})
+    
+-- Toggles
+FarmTab:AddToggle({
+	Name = "AutoRoll",
+	Default = false,
+	Callback = function(Value)
+		_G.autoRoll = Value
+        autoRoll()
+	end    
+})
+
+FarmTab:AddToggle({
+	Name = "AutoCollectLuckPotion",
+	Default = false,
+	Callback = function(Value)
+		_G.autocollectluckPotion = Value
+        autocollectluckPotion()
+	end    
+})
+
+FarmTab:AddToggle({
+	Name = "AutoCollectSpeedPotion",
+	Default = false,
+	Callback = function(Value)
+		_G.autocollectspeedPotion = Value
+        autocollectspeedPotion()
+	end    
+})
+
+FarmTab:AddButton({
+	Name = "AutoCollectLuckPotion(Loop)",
+	Callback = function() 
+        autocollectluckPotionLoop()      
+  	end    
+})
+
+FarmTab:AddButton({
+	Name = "AutoCollectSpeedPotion(Loop)",
+	Callback = function()  
+        autocollectspeedPotionLoop()      
+  	end    
+})
+
+
+PotionsTab:AddToggle({
+	Name = "AutoUseLuckPotion",
+	Default = false,
+	Callback = function(Value)
+		_G.autoluckPotion = Value
+        autoluckPotion()
+	end    
+})
+
+PotionsTab:AddToggle({
+	Name = "AutoUseSpeedPotion",
+	Default = false,
+	Callback = function(Value)
+		_G.autospeedPotion = Value
+        autospeedPotion()
+	end    
+})
+
+BossTab:AddToggle({
+	Name = "BossPortal1",
+	Default = false,
+	Callback = function(Value)
+		_G.autobossPortal1 = Value
+        autobossPortal1()
+	end    
+})
+
+BossTab:AddToggle({
+	Name = "BossPortal2",
+	Default = false,
+	Callback = function(Value)
+		_G.autobossPortal2 = Value
+        autobossPortal2()
+	end    
+})
+
+BossTab:AddToggle({
+	Name = "BossPortal2.1",
+	Default = false,
+	Callback = function(Value)
+		_G.autobossPortal22 = Value
+        autobossPortal22()
+	end    
+})
+
+BossTab:AddToggle({
+	Name = "BossPortal3",
+	Default = false,
+	Callback = function(Value)
+		_G.autobossPortal3 = Value
+        autobossPortal3()
+	end    
+})
+
+BossTab:AddToggle({
+	Name = "BossPortal4",
+	Default = false,
+	Callback = function(Value)
+		_G.autobossPortal4 = Value
+        autobossPortal4()
+	end    
+})
+
+BossTab:AddToggle({
+	Name = "BossPortal5",
+	Default = false,
+	Callback = function(Value)
+		_G.autobossPortal5 = Value
+        autobossPortal5()
+	end    
+})
+
+BossTab:AddToggle({
+	Name = "BossPortal6",
+	Default = false,
+	Callback = function(Value)
+		_G.autobossPortal6 = Value
+        autobossPortal6()
+	end    
+})
+
+OrionLib:Init()
