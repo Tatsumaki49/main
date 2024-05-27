@@ -17,6 +17,9 @@ _G.autobossPortal3 = true
 _G.autobossPortal4 = true
 _G.autobossPortal5 = true
 _G.autobossPortal6 = true
+_G.deleteUselessFolder = true
+_G.deleteUselessParts = true
+_G.deletePortals = true
 
 -- Funcions
 
@@ -274,6 +277,62 @@ function autoObby()
     end    
 end
 
+function deleteUselessFolder()
+    local function deleteItems(itemNames)
+        for _, itemName in ipairs(itemNames) do
+            local item = game.Workspace:FindFirstChild(itemName)
+            if item then
+                item:Destroy()
+                print(itemName .. " deleted successfully.")
+            else
+                print(itemName .. " not found.")
+            end
+        end
+    end
+    
+    -- Example usage
+    deleteItems({"BroadcastBoards", "Decor"})
+end
+
+function deleteUselessParts()
+    local function deleteModels(modelNames)
+        for _, modelName in ipairs(modelNames) do
+            local deletedCount = 0
+            for _, child in ipairs(game.Workspace:GetDescendants()) do
+                if child:IsA("Model") and child.Name == modelName then
+                    child:Destroy()
+                    deletedCount = deletedCount + 1
+                end
+            end
+            if deletedCount > 0 then
+                print("Deleted " .. deletedCount .. " instances of " .. modelName .. " successfully.")
+            else
+                print("No instances of " .. modelName .. " found.")
+            end
+        end
+    end
+    
+    -- Example usage
+    deleteModels({"Lantern", "Table w/ Lantern", "Craftsperson House", "SpawnFountain", "Rarest", "Rolls", "Big Tree", "rockyframe"})    
+end
+
+function deletePortals()
+    local function deleteItems(itemNames)
+        for _, itemName in ipairs(itemNames) do
+            local item = game.Workspace:FindFirstChild(itemName)
+            if item then
+                item:Destroy()
+                print(itemName .. " deleted successfully.")
+            else
+                print(itemName .. " not found.")
+            end
+        end
+    end
+    
+    -- Example usage
+    deleteItems({"Portals"})
+end
+
 -- Tabs
 local FarmTab = Window:MakeTab({
 	Name = "AutoFarm",
@@ -292,7 +351,13 @@ local BossTab = Window:MakeTab({
 	Icon = "rbxassetid://4483345998",
 	PremiumOnly = false
 })
-    
+
+local MiscTab = Window:MakeTab({
+	Name = "Misc",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = false
+})
+
 -- Toggles
 FarmTab:AddToggle({
 	Name = "AutoRoll",
@@ -341,6 +406,29 @@ FarmTab:AddButton({
 	Name = "AutoCollectSpeedPotion(Loop)",
 	Callback = function()  
         autocollectspeedPotionLoop()      
+  	end    
+})
+
+MiscTab:AddLabel("Important For Auto Collect Potion!")
+
+MiscTab:AddButton({
+	Name = "DeleteUselessFolder",
+	Callback = function() 
+        deleteUselessFolder()      
+  	end    
+})
+
+MiscTab:AddButton({
+	Name = "DeleteUselessParts",
+	Callback = function() 
+        deleteUselessParts()      
+  	end    
+})
+
+MiscTab:AddButton({
+	Name = "DeletePortals",
+	Callback = function() 
+        deletePortals()      
   	end    
 })
 
