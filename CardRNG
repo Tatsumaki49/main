@@ -9,6 +9,7 @@ _G.autocollectluckPotion = true
 _G.autocollectluckPotionLoop = true
 _G.autocollectspeedPotion = true
 _G.autocollectspeedPotionLoop = true
+_G.autoObby = true
 _G.autobossPortal1 = true
 _G.autobossPortal2 = true
 _G.autobossPortal22 = true
@@ -50,24 +51,51 @@ end
 
 function autocollectluckPotion()
     while _G.autocollectluckPotion == true do
-        local New_CFrame = game:GetService("Workspace").Potions["Luck Potion"].CFrame
+        local player = game.Players.LocalPlayer
 
-        local ts = game:GetService('TweenService')
-        local char = game.Players.LocalPlayer.Character
-        local part = char.HumanoidRootPart
-        local ti = TweenInfo.new(8, Enum.EasingStyle.Linear) --How fast you go
-        local tp = {CFrame = New_CFrame}
+    local function moveToPart(part)
+        if part then
+        local character = player.Character or player.CharacterAdded:Wait()
+        local humanoid = character:WaitForChild("Humanoid")
+
+        -- Raycast to find a point slightly above the part
+        local raycastParams = RaycastParams.new()
+        raycastParams.FilterType = Enum.RaycastFilterType.Blacklist
+        raycastParams.FilterDescendantsInstances = {character}
+        local result = workspace:Raycast(part.Position, Vector3.new(0, 1, 0), raycastParams)
         
-        ts:Create(part, ti, tp):Play()
-        
-        local function onTouched(hit)
-            if hit:IsDescendantOf(game:GetService("Workspace").Potions["Luck Potion"]) then
-                game:GetService("Workspace").Potions["Luck Potion"]:Destroy()
+        if result then
+            local destination = result.Position + Vector3.new(0, 2, 0) -- Move slightly above the part
+            humanoid:MoveTo(destination)
+            humanoid.MoveToFinished:Wait()
+            wait(0.1) -- Adjust this delay if necessary
+            
+            -- Check if the character is close enough to the part
+            if (character.Head.Position - part.Position).Magnitude < 3 then
+                part:Destroy()
             end
         end
-        
-        part.Touched:Connect(onTouched)    
+    end
+end
 
+    local function moveToParts()
+        local potionsFolder = game:GetService("Workspace").Potions
+    if not potionsFolder then
+        return
+    end
+    
+    local targetParts = {
+        potionsFolder:FindFirstChild("Luck Potion"),
+        potionsFolder:FindFirstChild("Speed Potion"),
+        -- Add more target parts here
+    }
+
+    for _, part in ipairs(targetParts) do
+        moveToPart(part)
+    end
+end
+
+moveToParts()
         wait(1)
     end
 end    
@@ -219,6 +247,32 @@ function autobossPortal6()
      end
 end
 
+function autoObby()
+    while _G.autoObby == true do
+        local teleport_table = {
+            location1 = Vector3.new(-554, 282, -577), -- your desired position
+        }
+        
+        local tween_s = game:GetService('TweenService')
+        local tweeninfo = TweenInfo.new(20,Enum.EasingStyle.Linear)
+        
+        local lp = game.Players.LocalPlayer
+        
+        function bypass_teleport(v)
+            if lp.Character and 
+            lp.Character:FindFirstChild('HumanoidRootPart') then
+                local cf = CFrame.new(v)
+                local a = tween_s:Create(lp.Character.HumanoidRootPart,tweeninfo,{CFrame=cf})
+                a:Play()
+                -- a.Completed:Wait()
+                -- print('Teleporting Done!')
+            end
+        end
+        
+        bypass_teleport(teleport_table.location1)
+        wait(301)
+    end    
+end
 
 -- Tabs
 local FarmTab = Window:MakeTab({
@@ -267,6 +321,15 @@ FarmTab:AddToggle({
 	end    
 })
 
+FarmTab:AddToggle({
+	Name = "AutoObby",
+	Default = false,
+	Callback = function(Value)
+		_G.autoObby = Value
+        autoObby()
+	end    
+})
+
 FarmTab:AddButton({
 	Name = "AutoCollectLuckPotion(Loop)",
 	Callback = function() 
@@ -280,7 +343,6 @@ FarmTab:AddButton({
         autocollectspeedPotionLoop()      
   	end    
 })
-
 
 PotionsTab:AddToggle({
 	Name = "AutoUseLuckPotion",
