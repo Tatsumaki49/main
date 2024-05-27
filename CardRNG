@@ -1,6 +1,11 @@
 local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
 local Window = OrionLib:MakeWindow({Name = "TatsumakiHub | CardRNG", HidePremium = false, IntroText = "TatsumakiHub", SaveConfig = true, ConfigFolder = "TatsuHub"})
 
+-- AntiAfk
+for i,v in pairs(getconnections(game:GetService("Players").LocalPlayer.Idled)) do
+    v:Disable()
+    end
+
 -- Values
 _G.autoRoll = true
 _G.autoluckPotion = true
