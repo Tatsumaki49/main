@@ -96,7 +96,7 @@ end
 end
 
 moveToParts()
-        wait(1)
+        wait(0.1)
     end
 end    
 
